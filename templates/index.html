@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Brand Sync
+{% endblock title %}
+
+{% block content %}
+    <h1>Welcome @{{user.username}}</h1>
+{% endblock content %}
+
+{% block style %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        padding: 20px;
+    }
+    .login-container {
+        max-width: 400px;
+        margin: 0 auto;
+        background-color: #ffffff;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .form-group {
+        margin-bottom: 20px;
+    }
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    .form-group input {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        box-sizing: border-box;
+    }
+    .form-group .btn {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        background-color: #4CAF50;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    } 
+    .form-group button:hover {
+        background-color: #45a049;
+    }
+    .signup-link {
+        text-decoration: none; /* Remove underline */
+        color: #007bff; /* Set link color */
+    }
+    
+    .signup-link:hover {
+        text-decoration: underline; /* Underline on hover (optional) */
+    }
+</style>
+{% endblock style %}

@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Find Campaigns - Brand Sync
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <h1>Active Campaigns</h1>
+    <div class="row">
+        {% if campaigns %}
+            {% for campaign in campaigns %}
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ campaign.title }}</h5>
+                            <p class="card-text">{{ campaign.description }}</p>
+                            <p><strong>Start Date:</strong> {{ campaign.created_at.strftime('%d-%m-%Y') }}</p>
+                            <p><strong>End Date:</strong> {{ campaign.end_date.strftime('%d-%m-%Y') }}</p>
+                            <p><strong>Budget:</strong> ${{ campaign.budget }}</p>
+                            <p><strong>Niche:</strong> {{ campaign.niche }}</p>
+                            <p><strong>Status:</strong> Active</p>
+                            {% if not user.is_flagged %}
+                            <form action="{{ url_for('apply_campaign', campaign_id=campaign.id) }}" method="POST">
+                                <input type="hidden" name="campaign_id" value="{{ campaign.id }}">
+                                <button type="submit" class="btn btn-primary">Apply</button>
+                            </form>
+                            {% else %}
+                                <p class="text-danger text-center">You cannot apply to campaigns as your account is flagged</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p>No active campaigns found.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}
+
+{% block style %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        padding: 20px;
+    }
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+</style>
+{% endblock style %}

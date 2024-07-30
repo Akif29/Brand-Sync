@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">    
+    <h2>Active Campaigns</h2>
+    <ul class="list-group">
+        {% for campaign in active_campaigns %}
+        <li class="list-group-item">
+            {{ campaign.title }} 
+            {% if not campaign.is_flagged %}
+            <form action="{{ url_for('flag_campaign', campaign_id=campaign.id) }}" method="POST" style="display: inline;">
+                <button type="submit" class="btn btn-danger btn-sm">Flag</button>
+            </form>
+            {% endif %}
+        </li>
+        {% else %}
+        <li class="list-group-item">No active campaigns found.</li>
+        {% endfor %}
+    </ul>
+    
+    <h2>Users</h2>
+    <ul class="list-group">
+        {% for user in active_users %}
+        <li class="list-group-item">
+            @{{ user.username }} 
+            {% if not user.is_flagged and not user.is_admin %}
+            <form action="{{ url_for('flag_user', user_id=user.id) }}" method="POST" style="display: inline;">
+                <button type="submit" class="btn btn-danger btn-sm">Flag</button>
+            </form>
+            {% endif %}
+        </li>
+        {% else %}
+        <li class="list-group-item">No active users found.</li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}
+
+{% block style %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        padding: 20px;
+    }
+    .container {
+        margin-top: 20px;
+        max-width: 900px;
+        font-size: 1.2rem;
+    }
+    
+    .list-group {
+        margin-bottom: 20px;
+    }
+    
+    .list-group-item {
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .progress-text {
+        font-weight: bold;
+    }
+    
+    .modal-body p {
+        margin-bottom: 10px;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,122 @@
+<nav class="navbar navbar-expand-lg w-100 fixed-top" style="background-color: blue;">
+    <div class="container-fluid">
+        {% if user %}
+            {% if user.role == 'influencer' %}
+                <a class="navbar-brand">Brandsync | Influencer</a>
+            {% elif user.role == 'sponsor' %}
+                <a class="navbar-brand">Brandsync | Sponsor</a>
+            {% elif user.role == 'admin' %}
+                <a class="navbar-brand">Brandsync | Admin</a>
+            {% else %}
+                <a class="navbar-brand">Brandsync</a>
+            {% endif %}
+        {% else %}
+            <a class="navbar-brand">Brandsync</a>
+        {% endif %}
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <!--render auth links if not logged in-->
+                {% if user %}
+                    {% if user.role == 'influencer' %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.endpoint == 'influencer_dash' %}active{% endif %}" href="{{ url_for('influencer_dash') }}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.endpoint == 'influencer_profile' %}active{% endif %}" href="{{ url_for('influencer_profile') }}">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.endpoint == 'influencer_find' %}active{% endif %}" href="{{ url_for('influencer_find') }}">Find</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.endpoint == 'influencer_stats' %}active{% endif %}" href="{{ url_for('influencer_stats') }}">Stats</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.endpoint == 'logout' %}active{% endif %}" href="{{ url_for('logout') }}">Logout</a>
+                        </li>
+                    {% elif user.role == 'sponsor' %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.endpoint == 'sponsor_dash' %}active{% endif %}" href="{{ url_for('sponsor_dash') }}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.endpoint == 'sponsor_profile' %}active{% endif %}" href="{{ url_for('sponsor_profile') }}">Profile</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.endpoint == 'sponsor_find' %}active{% endif %}" href="{{ url_for('sponsor_find') }}">Find</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.endpoint == 'sponsor_camp' %}active{% endif %}" href="{{ url_for('sponsor_camp') }}">Campaigns</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.endpoint == 'sponsor_stats' %}active{% endif %}" href="{{ url_for('sponsor_stats') }}">Stats</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.endpoint == 'logout' %}active{% endif %}" href="{{ url_for('logout') }}">Logout</a>
+                        </li>
+                    {% elif user.role == 'admin' %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.endpoint == 'admin_dash' %}active{% endif %}" href="{{ url_for('admin_dash') }}">Home</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.endpoint == 'admin_find' %}active{% endif %}" href="{{ url_for('admin_find') }}">Find</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.endpoint == 'admin_stats' %}active{% endif %}" href="{{ url_for('admin_stats') }}">Stats</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.endpoint == 'logout' %}active{% endif %}" href="{{ url_for('logout') }}">Logout</a>
+                        </li>
+                {% endif %}
+                {% else %}
+                <li class="nav-item">
+                    <a class="nav-link {% if request.endpoint == 'login' %}active{% endif %}" href="{{ url_for('login') }}">Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link {% if request.endpoint == 'signup' %}active{% endif %}" href="{{ url_for('signup') }}">Register</a>
+                </li>
+            {% endif %}
+            
+            
+            </ul>
+        </div>
+    </div>
+</nav>
+<style>
+    .navbar {
+        margin: 0;
+        margin-bottom: 20px;
+        width: 100%;
+    }
+    .navbar-nav {
+        margin-left: auto; /* Align navbar items to the right */
+    }
+    .navbar-brand {
+        font-size: 1.8rem; /* Adjust navbar brand font size */
+        color: white;
+        transition: color 0.3s ease;
+    }
+    .content-container {
+        margin-top: 70px;
+    }
+    .navbar-nav .nav-link {
+        color: white ;
+        font-weight: bold;
+        margin-left: 5px;
+    }
+    .navbar-nav .nav-link.active {
+        color: black ;
+        background-color: rgb(178, 226, 241) ;
+        border-radius: 5px;
+        font-weight: bolder;
+    }
+    .navbar-nav .nav-link:hover {
+        color: white;
+        background-color: darkblue; /* Darker shade of blue for hover effect */
+        border-radius: 5px;
+    }
+    .navbar-brand:hover {
+        color: yellow; /* Change color to blue on hover */
+    }
+</style>

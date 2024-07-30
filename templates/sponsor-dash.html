@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ user.username }} - Brand Sync
+{% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <h1>Welcome {{ user.username }}</h1>
+        <h2>Ad Campaign Requests</h2>
+        {% if ad_requests_with_payment %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Campaign</th>
+                        <th>Influencer</th>
+                        <th>Payment Amount</th>
+                        <th>Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                    {% for request in ad_requests_with_payment %}
+                    <tr>
+                        <td>{{ request.campaign.title if request.campaign else 'DELETED CAMPAIGN'}}</td>
+                        <td>{{ request.influencer.username }}</td>
+                        <td>${{ request.payment_amount }}</td>
+                        <td>{{ request.status }}</td>
+                        <td>
+                            {% if request.status == 'pending' %}
+                                <form action="{{ url_for('sponsor_dash') }}" method="POST" style="display:inline;">
+                                    <input type="hidden" name="request_id" value="{{ request.id }}">
+                                    <input type="hidden" name="action" value="accept">
+                                    <button type="submit" class="btn btn-success">Accept</button>
+                                </form>
+                                <form action="{{ url_for('sponsor_dash') }}" method="POST" style="display:inline;">
+                                    <input type="hidden" name="request_id" value="{{ request.id }}">
+                                    <input type="hidden" name="action" value="reject">
+                                    <button type="submit" class="btn btn-danger">Reject</button>
+                                </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No ad campaigns with payment found.</p>
+        {% endif %}
+        
+        <hr>
+        
+        <h2>Influencer Requests Status</h2>
+        {% if ad_requests_without_payment %}
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Influencer</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for request in ad_requests_without_payment %}
+                        {% if request.influencer.username != 'N/A' %}
+                        <tr>
+                            <td>{{ request.influencer.username }}</td>
+                            <td>{{ request.status }}</td>
+                        </tr>
+                        {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        {% else %}
+            <p>No Influencer Requests found.</p>
+        {% endif %}
+    </div>
+{% endblock content %}
+
+{% block style %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        padding: 20px;
+    }
+    .container {
+        max-width: 900px;
+        margin-top: 20px;
+    }
+    h2 {
+        margin-bottom: 20px;
+    }
+    .table {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+    .table th, .table td {
+        text-align: left;
+        padding: 8px;
+    }
+</style>
+{% endblock style %}

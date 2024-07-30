@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Edit Campaign - Brand Sync
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <h2>Edit Campaign</h2>
+    <form action="{{ url_for('edit_campaign', campaign_id=campaign.id) }}" method="POST">
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" name="title" value="{{ campaign.title }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="3" required>{{ campaign.description }}</textarea>
+        </div>
+        <div class="mb-3">
+            <label for="end_date" class="form-label">End Date</label>
+            <input type="date" class="form-control" id="end_date" name="end_date" value="{{ campaign.end_date.strftime('%Y-%m-%d') }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="budget" class="form-label">Budget</label>
+            <input type="number" class="form-control" id="budget" name="budget" value="{{ campaign.budget }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="niche" class="form-label">Niche</label>
+            <input type="text" class="form-control" id="niche" name="niche" value="{{ campaign.niche }}" required>
+        </div>
+        <div class="form-check mb-3">
+            <input class="form-check-input" type="checkbox" id="is_active" name="is_active" {% if campaign.is_active %}checked{% endif %}>
+            <label class="form-check-label" for="is_active">
+                Active
+            </label>
+        </div>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+</div>
+{% endblock content %}

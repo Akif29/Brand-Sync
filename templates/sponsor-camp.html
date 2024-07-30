@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    My Campaigns - Brand Sync
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between mb-4">
+        <h2>Your Campaigns</h2>
+        {% if not user.is_flagged %}
+        <a href="{{ url_for('sponsor_create_camp') }}" class="btn btn-primary">Create New Campaign</a>
+        {% else %}
+            <p class="text-danger">You cannot create a new campaign as your account is flagged.</p>
+        {% endif %}
+    </div>
+    {% if campaigns %}
+        <div class="row">
+            {% for campaign in campaigns %}
+                <div class="col-md-4">
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                {{ campaign.title }}
+                                {% if campaign.is_flagged %}
+                                <span class="text-danger float-right">Flagged</span>
+                                {% endif %}
+                            </h5>
+                            <p class="card-text">{{ campaign.description }}</p>
+                            <p><strong>Start Date:</strong> {{ campaign.created_at.strftime('%d-%m-%Y') }}</p>
+                            <p><strong>End Date:</strong> {{ campaign.end_date.strftime('%d-%m-%Y') }}</p>
+                            <p><strong>Budget:</strong> ${{ campaign.budget }}</p>
+                            <p><strong>Niche:</strong> {{ campaign.niche }}</p>
+                            {% if campaign.is_flagged %}
+                                <p><strong>Status:</strong> Flagged</p>
+                            {% else %}
+                                <p><strong>Status:</strong> {{ 'Active' if campaign.is_active else 'Inactive' }}</p>
+                            {% endif %}
+                        
+                            
+                            <div class="progress">
+                                {% set total_seconds = (campaign.end_date - campaign.created_at).total_seconds() %}
+                                {% set elapsed_seconds = (datetime.now() - campaign.created_at).total_seconds() %}
+                                
+                                {% if elapsed_seconds >= total_seconds %}
+                                    {% set progress_percent = 100 %}
+                                    <div class="progress-bar bg-success" role="progressbar" style="width: {{ progress_percent }}%;" aria-valuenow="{{ progress_percent }}" aria-valuemin="0" aria-valuemax="100">Campaign completed</div>
+                                {% elif total_seconds > 0 %}
+                                    {% set progress_percent = elapsed_seconds / total_seconds * 100 %}
+                                    <div class="progress-bar" role="progressbar" style="width: {{ progress_percent }}%;" aria-valuenow="{{ progress_percent }}" aria-valuemin="0" aria-valuemax="100">{{ progress_percent | round(0) }}%</div>
+                                {% else %}
+                                    <div class="progress-bar bg-danger" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">Campaign ended</div>
+                                {% endif %}
+                            </div>
+
+
+                            <div class="d-flex justify-content-between">
+                                <form action="{{ url_for('edit_campaign', campaign_id=campaign.id) }}" method="GET">
+                                    <button type="submit" class="btn btn-warning">Edit</button>
+                                </form>
+                                <form action="{{ url_for('delete_campaign', campaign_id=campaign.id) }}" method="POST" onsubmit="return confirm('Are you sure you want to delete this campaign?');">
+                                    <button type="submit" class="btn btn-danger">Delete</button>
+                                </form>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No active campaigns found.</p>
+    {% endif %}
+</div>
+{% endblock content %}
+
+{% block scripts %}
+{% endblock scripts %}
+
+{% block style %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        padding: 20px;
+    }
+    .container {
+        max-width: 1000px;
+        margin: 0 auto;
+    }
+    h1 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+    .card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        position: relative; /* Ensure position relative for absolute positioning */
+    }
+    .card-body {
+        padding: 20px;
+        position: relative; /* Ensure position relative for absolute positioning */
+    }
+    .card-title {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+    .card-text {
+        font-size: 1rem;
+        margin-bottom: 10px;
+    }
+    p {
+        font-size: 1.2rem;
+    }
+    p strong {
+        color: #007bff;
+    }
+    .progress {
+        height: 25px;
+        margin-bottom: 10px;
+    }
+    .progress-bar {
+        background-color: #007bff;
+        color: #fff;
+        font-weight: bold;
+    }
+    .text-danger {
+        color: red;
+        position: absolute;
+        top: 0;
+        right: 0;
+        padding: 20px;
+    }
+    .btn-primary {
+        background-color: blue; /* Blue button */
+        border-color: #007bff;
+    }
+    .btn-primary:hover {
+        background-color: darkblue; /* Darker blue on hover */
+        border-color: #0056b3;
+    }
+</style>
+{% endblock style %}

@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Create Campaign - Brand Sync
+{% endblock title %}
+
+{% block content %}
+<div class="container">
+    <h1>Create New Campaign</h1>
+    <form method="POST">
+        <div class="mb-3">
+            <label for="title" class="form-label">Title</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" name="description" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="end_date" class="form-label">End Date</label>
+            <input type="date" class="form-control" id="end_date" name="end_date" required>
+        </div>
+        <div class="mb-3">
+            <label for="budget" class="form-label">Budget</label>
+            <input type="number" class="form-control" id="budget" name="budget" required>
+        </div>
+        <div class="mb-3">
+            <label for="niche" class="form-label">Niche</label>
+            <input type="text" class="form-control" id="niche" name="niche" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Create Campaign</button>
+    </form>
+</div>
+{% endblock content %}
+
+{% block style %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        padding: 20px;
+    }
+    .container {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+    h1 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+    .form-label {
+        font-weight: bold;
+    }
+    .form-control {
+        margin-bottom: 20px;
+    }
+    p {
+        font-size: 1.2rem;
+    }
+    p strong {
+        color: #007bff;
+    }
+    .btn-primary {
+        background-color: blue; /* Blue button */
+        border-color: #007bff;
+    }
+    .btn-primary:hover {
+        background-color: darkblue; /* Darker blue on hover */
+        border-color: #0056b3;
+    }
+</style>
+{% endblock style %}

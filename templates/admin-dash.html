@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <h2>Ongoing Campaigns</h2>
+    <ul class="list-group">
+        {% if ongoing_campaigns %}
+            {% for campaign in ongoing_campaigns %}
+            <li class="list-group-item">
+                <div class="campaign-info">
+                    <!-- Calculate total duration for each campaign-->
+                    <span><strong>{{ campaign.title }}</strong></span>
+                    {% set total_seconds = (campaign.end_date - campaign.created_at).total_seconds() %}
+                    {% set elapsed_seconds = (datetime.now() - campaign.created_at).total_seconds() %}
+                    
+                    {% if elapsed_seconds >= total_seconds %}
+                        {% set progress_percent = 100 %}
+                        <span class="progress-text">Campaign completed</span>
+                    {% elif total_seconds > 0 %}
+                        {% set progress_percent = elapsed_seconds / total_seconds * 100 %}
+                        <span class="progress-text"> | Progress {{ progress_percent | round(0) }}%</span>
+                    {% else %}
+                        <span class="progress-text">Campaign ended</span>
+                    {% endif %}
+                </div>
+            </li>
+            {% endfor %}
+        {% else %}
+            <li class="list-group-item">No ongoing campaigns found.</li>
+        {% endif %}
+    </ul>
+    
+    <h2>Flagged Users/Campaigns/Sponsors</h2>
+    <ul class="list-group">
+        {% if flagged_users or flagged_campaigns or flagged_sponsors %}
+            {% for user in flagged_users %}
+            <li class="list-group-item flagged-item">
+                <div>
+                    <strong>User:</strong> {{ user.username }} 
+                </div>
+                <form action="{{ url_for('remove_flag_user', user_id=user.id) }}" method="POST" style="display: inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Remove Flag</button>
+                </form>
+            </li>
+            {% endfor %}
+            {% for campaign in flagged_campaigns %}
+            <li class="list-group-item flagged-item">
+                <div>
+                    <strong>Campaign:</strong> {{ campaign.title }} 
+                </div>
+                <form action="{{ url_for('remove_flag_campaign', campaign_id=campaign.id) }}" method="POST" style="display: inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Remove Flag</button>
+                </form>
+            </li>
+            {% endfor %}
+            {% for sponsor in flagged_sponsors %}
+            <li class="list-group-item flagged-item">
+                <div>
+                    <strong>Sponsor:</strong> {{ sponsor.name }} 
+                </div>
+                <form action="{{ url_for('remove_flag_sponsor', sponsor_id=sponsor.id) }}" method="POST" style="display: inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Remove Flag</button>
+                </form>
+            </li>
+            {% endfor %}
+        {% else %}
+            <li class="list-group-item">No flagged users, campaigns, or sponsors found.</li>
+        {% endif %}
+    </ul>
+</div>
+{% endblock %}
+
+{% block style %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        padding: 20px;
+    }
+    .container {
+        margin-top: 20px;
+        max-width: 900px;
+        font-size: 1.2rem;
+    }
+    
+    .list-group {
+        margin-bottom: 20px;
+    }
+    
+    .list-group-item {
+        margin-bottom: 10px;
+        display: flex;
+        justify-content: space-between;
+    }
+    
+    .flagged-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center; /* Align items vertically centered */
+    }
+    
+    .flagged-item strong {
+        margin-right: 10px; /* Add space between label and value */
+    }
+    
+    .progress-text {
+        font-weight: bold;
+    }
+    
+    .modal-body p {
+        margin-bottom: 10px;
+    }
+</style>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    // jQuery script to handle showing modals
+    $(document).ready(function() {
+        $('.view-button').click(function() {
+            var modalId = $(this).data('target');
+            $(modalId).modal('show');
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{ user.username }} - Admin Stats
+{% endblock title %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Admin Stats</h1>
+    
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Total Users</h5>
+                    <p class="card-text">{{ total_users }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Total Sponsors</h5>
+                    <p class="card-text">{{ total_sponsors }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Total Influencers</h5>
+                    <p class="card-text">{{ total_influencers }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Total Active Campaigns</h5>
+                    <p class="card-text">{{ total_campaigns }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Total Campaign Spent</h5>
+                    <p class="card-text">${{ total_budget }}</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-4">
+            <div class="card mb-4 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Flagged Users</h5>
+                    <p class="card-text">{{ flagged_users_count }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block style %}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        padding: 20px;
+    }
+    .container {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+    .card {
+        border-radius: 10px;
+        transition: transform 0.3s ease-in-out;
+    }
+    .card:hover {
+        transform: translateY(-5px);
+    }
+    .card-body {
+        text-align: center;
+    }
+    .card-title {
+        font-size: 1.2rem;
+        font-weight: bold;
+    }
+    .card-text {
+        font-size: 1.5rem;
+    }
+</style>
+{% endblock style %}

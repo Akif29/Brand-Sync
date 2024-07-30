@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{user.username}} - Brand Sync
+{% endblock title %}
+
+{% block content %}
+<h1>Complete Your Profile</h1>
+<form method="POST">
+    <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control" id="name" name="name" value="{{ sponsor.name }}">
+    </div>
+    <div class="mb-3">
+        <label for="phone_number" class="form-label">Company Name</label>
+        <input type="text" class="form-control" id="company_name" name="company_name" value="{{ sponsor.company_name or '' }}">
+    </div>
+    <div class="mb-3">
+        <label for="phone_number" class="form-label">Industry</label>
+        <input type="text" class="form-control" id="industry" name="industry" value="{{ sponsor.industry or '' }}">
+    </div>
+    <div class="mb-3">
+        <label for="bio" class="form-label">Bio</label>
+        <textarea class="form-control" id="bio" name="bio" value="{{ sponsor.bio or ' ' }}">{{ sponsor.bio }}</textarea>
+    </div>
+    <div class="mb-3">
+        <label for="phone_number" class="form-label">Phone Number</label>
+        <input type="text" class="form-control" id="phone_number" name="phone_number" value="{{ sponsor.phone_number or '' }}">
+    </div>
+    <div class="mb-3">
+        <label for="phone_number" class="form-label">Website</label>
+        <input type="text" class="form-control" id="website" name="website" value="{{ sponsor.website or '' }}">
+    </div>
+    <div class="mb-3">
+        <label for="location" class="form-label">Location</label>
+        <input type="text" class="form-control" id="location" name="location" value="{{ sponsor.location or '' }}">
+    </div>
+    <div class="mb-3">
+        <label for="collaboration_types" class="form-label">Collaboration Types</label>
+        <textarea class="form-control" id="collaboration_types" name="collaboration_types" value="{{ sponsor.collaboration_types or '' }}">{{ sponsor.collaboration_types }}</textarea>
+    </div>
+    <div class="mb-3">
+        <label for="budget_range" class="form-label">Maximum Budget</label>
+        <input type="number" class="form-control" id="budget_range" name="budget_range" value="{{ sponsor.budget_range or '' }}">
+    </div>
+    <button type="submit" class="btn btn-primary">Update Profile</button>
+</form>
+
+
+{% endblock content %}
+
+{% block style %}
+<style>
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+    h1 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+    p {
+        font-size: 1.2rem;
+    }
+    p strong {
+        color: #007bff;
+    }
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        padding: 20px;
+    }
+    .container {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+    h1 {
+        font-size: 2.5rem;
+        margin-bottom: 20px;
+    }
+    .profile-info {
+        margin-bottom: 20px;
+    }
+    .profile-info h3 {
+        font-size: 1.5rem;
+        margin-bottom: 10px;
+    }
+    .profile-info p {
+        font-size: 1.2rem;
+    }
+
+</style>
+{% endblock style %}
